@@ -50,6 +50,7 @@ const app = async ({ mode }: ConfigEnv): Promise<UserConfigExport> => {
           '@yc-tech/shared',
           'lodash-es',
           'naive-ui',
+          '@vueuse/core'
         ],
         output: {
           banner: `// author: django`,
