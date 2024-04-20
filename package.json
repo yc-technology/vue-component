@@ -1,0 +1,96 @@
+{
+  "name": "@yc-tech/vue-component",
+  "private": false,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.0.1",
+  "author": "django",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yc-technology/vue-component.git"
+  },
+  "main": "dist/vue-component.umd.js",
+  "module": "dist/vue-component.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-component.es.js",
+      "require": "./dist/vue-component.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "dev": "vite build --mode development",
+    "dev:storybook": "storybook dev -p 6006",
+    "build": "storybook build",
+    "build:lib": "tsc && vite build",
+    "github:ci": "npm version patch -m 'chore(release): bump version to %s' && git push && git push --tags",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx,js,mdx}\"",
+    "test": "vitest",
+    "test:cov": "vitest run --coverage",
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies;\""
+  },
+  "dependencies": {
+    "@yc-tech/shared": "^0.1.4",
+    "lodash-es": "^4.17.21",
+    "naive-ui": "^2.38.1",
+    "vue": "^3.4.23"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@iconify-json/mingcute": "^1.1.17",
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-styling": "^1.3.7",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/testing-library": "^0.2.2",
+    "@storybook/vue3": "^8.0.8",
+    "@storybook/vue3-vite": "^8.0.8",
+    "@testing-library/vue": "^14.3.1",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.12.7",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vitest/coverage-v8": "^0.34.6",
+    "@yc-tech/eslint-config": "^0.1.1",
+    "@yc-tech/prettier-config": "^0.1.0",
+    "archiver": "^6.0.2",
+    "autoprefixer": "^10.4.19",
+    "babel-loader": "^9.1.3",
+    "class-variance-authority": "^0.7.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.3",
+    "jsdom": "^22.1.0",
+    "json": "^11.0.0",
+    "kolorist": "^1.8.0",
+    "less": "^4.2.0",
+    "lint-staged": "13.2.3",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "prop-types": "^15.8.1",
+    "sass": "^1.75.0",
+    "storybook": "^7.6.17",
+    "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vite-plugin-dts": "^3.8.3",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.23"
+  },
+  "files": [
+    "dist"
+  ],
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier -w"
+    ]
+  }
+}
