@@ -32,6 +32,7 @@
     "prepack": "json -f package.json -I -e \"delete this.devDependencies;\""
   },
   "dependencies": {
+    "@iconify/vue": "^4.1.2",
     "@vueuse/core": "^10.9.0",
     "@yc-tech/shared": "^0.1.4",
     "lodash-es": "^4.17.21",

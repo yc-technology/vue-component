@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.icon-btn {
+  @apply bg-transparent inline-block cursor-pointer select-none  transition duration-200 ease-in-out opacity-70 hover:opacity-100 hover:bg-black/10 rounded-[4px] p-1;
+}
