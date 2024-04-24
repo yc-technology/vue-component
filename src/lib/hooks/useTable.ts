@@ -1,7 +1,7 @@
-import { TableColumn } from 'naive-ui/es/data-table/src/interface'
+import { RowKey, TableColumn } from 'naive-ui/es/data-table/src/interface'
 import { UsePagingOptions, usePaging } from './usePaging'
 import { Fn } from '~/types'
-import { computed } from 'vue'
+import { Ref, computed, ref } from 'vue'
 import { PaginationProps, PaginationSizeOption } from 'naive-ui'
 
 interface TableColumnExt {
@@ -12,19 +12,21 @@ interface TableColumnExt {
 
 export type DataTableColumnsExt<T> = Array<TableColumn<T> & TableColumnExt>
 
-type UseTableOptions = {
+type UseTableOptions<T extends Record<string, any>> = {
   rowKeyField?: string
   showSizePicker?: boolean
   pageSizes?: (number | PaginationSizeOption)[]
-} & UsePagingOptions
+} & UsePagingOptions<T>
 
 export function useTable<T extends Record<string, any>>({
   rowKeyField,
   showSizePicker,
   pageSizes,
   ...optionRest
-}: UseTableOptions = {}) {
+}: UseTableOptions<T> = {}) {
   const { page, pageSize, total, ...rest } = usePaging<T>(optionRest)
+  const checkedRowKeys = ref<RowKey[]>([])
+  const checkedRows = ref<T[]>([]) as Ref<T[]>
   const pagination = computed<PaginationProps>(() => {
     return {
       page: page.value,
@@ -56,5 +58,22 @@ export function useTable<T extends Record<string, any>>({
     pageSize.value = v
   }
 
-  return { pagination, page, pageSize, total, rowKey, onPageChange, onPageSizeChange, ...rest }
+  const onCheckedRowKeysChange = (keys: RowKey[], rows: T[]) => {
+    checkedRowKeys.value = keys
+    checkedRows.value = rows
+  }
+
+  return {
+    page,
+    total,
+    rowKey,
+    pageSize,
+    pagination,
+    checkedRowKeys,
+    checkedRows,
+    onPageChange,
+    onPageSizeChange,
+    onCheckedRowKeysChange,
+    ...rest
+  }
 }

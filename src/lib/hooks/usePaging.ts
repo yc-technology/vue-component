@@ -19,7 +19,7 @@ export interface FetchItemsParams {
 export type FetchItemsFn<T> = Fn<[FetchItemsParams], Promise<FetchPageResult<T>>>
 
 type SetDataSource<T> = (data: T[], increment?: T[]) => void
-export interface UsePagingOptions<T = Record<string, any>> {
+export interface UsePagingOptions<T extends Record<string, any>> {
   page?: number
   pageSize?: number
   pageToken?: string | number
@@ -36,18 +36,18 @@ export interface UsePagingOptions<T = Record<string, any>> {
   [kye: string]: any
 }
 
-export function usePaging<T extends Record<string, any>>(initialOptions: UsePagingOptions = {}) {
+export function usePaging<T extends Record<string, any>>(initialOptions: UsePagingOptions<T> = {}) {
   const options = {
     pageSize: 20,
     pageToken: `${Number.MAX_SAFE_INTEGER}`,
     itemsKey: 'items',
     totalKey: 'total'
-  } as Required<NonNullable<UsePagingOptions>>
+  } as Required<NonNullable<UsePagingOptions<T>>>
   initialOptions = Object.keys(initialOptions).reduce((acc, key) => {
     if (!isUndefined(initialOptions[key])) acc[key] = initialOptions[key]
 
     return acc
-  }, {} as UsePagingOptions)
+  }, {} as UsePagingOptions<T>)
   Object.assign(options, initialOptions)
   const page = ref<number | undefined>(options.page)
   const pageSize = ref(options.pageSize!)
@@ -60,7 +60,7 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
   // 是否已经完成第一次加载标识，用来判断是否是 empty
   const firstFetched = ref(false)
   const empty = ref(false)
-  const dataSource = ref(options.dataSource || [])
+  const dataSource = ref(options.dataSource || []) as Ref<T[]>
   const setDataSource =
     options.setDataSource || ((data: T[], _: T[] | undefined) => (dataSource.value = data))
   const pickExtra = ref({} as any)
