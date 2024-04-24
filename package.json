@@ -37,19 +37,19 @@
     "@yc-tech/shared": "^0.1.4",
     "lodash-es": "^4.17.21",
     "naive-ui": "^2.38.1",
-    "vue": "^3.4.23"
+    "vue": "^3.4.24"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@iconify-json/mingcute": "^1.1.17",
-    "@storybook/addon-essentials": "^7.6.17",
-    "@storybook/addon-interactions": "^7.6.17",
-    "@storybook/addon-links": "^7.6.17",
-    "@storybook/addon-themes": "^8.0.8",
-    "@storybook/blocks": "^7.6.17",
+    "@storybook/addon-essentials": "^7.6.18",
+    "@storybook/addon-interactions": "^7.6.18",
+    "@storybook/addon-links": "^7.6.18",
+    "@storybook/addon-themes": "^8.0.9",
+    "@storybook/blocks": "^7.6.18",
     "@storybook/testing-library": "^0.2.2",
-    "@storybook/vue3": "^8.0.8",
-    "@storybook/vue3-vite": "^8.0.8",
+    "@storybook/vue3": "^8.0.9",
+    "@storybook/vue3-vite": "^8.0.9",
     "@testing-library/vue": "^8.0.3",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.12.7",
@@ -70,16 +70,16 @@
     "prettier": "^3.2.5",
     "prop-types": "^15.8.1",
     "sass": "^1.75.0",
-    "storybook": "^7.6.17",
+    "storybook": "^7.6.18",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
-    "vite-plugin-dts": "^3.8.3",
+    "vite-plugin-dts": "^3.9.0",
     "vitest": "^0.34.6"
   },
   "peerDependencies": {
-    "vue": "^3.4.23"
+    "vue": "^3.4.24"
   },
   "files": [
     "dist"
