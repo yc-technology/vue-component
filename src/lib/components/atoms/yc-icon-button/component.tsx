@@ -18,6 +18,7 @@ export default defineComponent({
     autoAsync: Boolean,
     loadingDuration: Number,
     loading: Boolean,
+    disabled: Boolean,
     onClick: [Function, Array] as PropType<MaybeArray<(e: MouseEvent) => void>>
   },
   setup(props, { slots, attrs }) {
@@ -34,7 +35,13 @@ export default defineComponent({
 
     const renderIcon = (className?: string) => (
       <div
-        class={[{ 'icon-btn': !props.hiddenDefaultStyle }, className]}
+        class={[
+          {
+            'icon-btn': !props.hiddenDefaultStyle,
+            'pointer-events-none cursor-not-allowed': props.disabled
+          },
+          className
+        ]}
         onClick={getAttrs.value.onClick}>
         {getAttrs.value.loading ? (
           <div class={['i-mingcute:loading-line animate-spin', props.iconClass]} />

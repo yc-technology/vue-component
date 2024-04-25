@@ -1,4 +1,13 @@
-import { ExtractPublicPropTypes, Ref, computed, defineComponent, toRef } from 'vue'
+import {
+  ComponentInstance,
+  ComponentPublicInstance,
+  ExtractPublicPropTypes,
+  Ref,
+  computed,
+  defineComponent,
+  ref,
+  toRef
+} from 'vue'
 import { NButton, buttonProps } from 'naive-ui'
 import { useButton } from '~/lib/hooks/useButton'
 /**
@@ -52,6 +61,7 @@ export default defineComponent({
     // someEmit: (value: string) => typeof value === 'string'
   },
   setup(props: YcButtonProps, ctx) {
+    const btnRef = ref<ComponentPublicInstance<HTMLButtonElement>>()
     const { getAttrs } = useButton({
       throttle: props.throttle,
       debounce: props.debounce,
@@ -67,6 +77,17 @@ export default defineComponent({
       return { ...props, ...getAttrs.value }
     })
 
-    return () => <NButton {...newProps.value}>{ctx.slots.default?.()}</NButton>
+    ctx.expose({
+      click: () => {
+        btnRef.value?.$el.click()
+      }
+    })
+
+    return () => (
+      <NButton {...newProps.value} ref={btnRef}>
+        {!newProps.value.loading && ctx.slots.icon?.()}
+        {ctx.slots.default?.()}
+      </NButton>
+    )
   }
 })
