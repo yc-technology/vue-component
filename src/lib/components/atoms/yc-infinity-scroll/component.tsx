@@ -9,7 +9,7 @@ const InfiniteScrollProviderKey = 'InfiniteScrollProvider'
 /**
  * 属性声明
  */
-const xProps = {
+export const ycInfinityScrollProps = {
   fetchItemsFn: {
     type: Function as PropType<FetchItemsFn<Record<string, any>>>
   },
@@ -51,13 +51,13 @@ const defaultFetchItemsFn: FetchItemsFn<Record<string, any>> = async () => {
 /**
  * 属性类型
  */
-type XProps = ExtractPublicPropTypes<typeof xProps>
+export type YcInfinityScrollProps = ExtractPublicPropTypes<typeof ycInfinityScrollProps>
 
 export default defineComponent({
   name: 'YcInfinityScroll',
-  props: xProps,
+  props: ycInfinityScrollProps,
   emits: ['update:dataSource'],
-  setup(props: XProps, ctx) {
+  setup(props: YcInfinityScrollProps, ctx) {
     const scrollRef = ref<HTMLElement | Document | null>(null)
     const {
       dataSource,

@@ -51,6 +51,7 @@ const app = async ({ mode }: ConfigEnv): Promise<UserConfigExport> => {
           'lodash-es',
           'naive-ui',
           '@vueuse/core',
+          '@vueuse/motion',
           '@iconify/vue'
         ],
         output: {

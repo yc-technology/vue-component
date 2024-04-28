@@ -1,11 +1,16 @@
 import type { App } from 'vue'
-import YcInfinityScroll from './component'
+import YcInfinityScroll, {
+  ycInfinityScrollProps,
+  YcInfinityScrollProps as Props
+} from './component'
 
 YcInfinityScroll.install = (app: App) => {
   app.component(YcInfinityScroll.name!, YcInfinityScroll)
 }
 
-export { YcInfinityScroll }
+export { YcInfinityScroll, ycInfinityScrollProps }
+
+export type YcInfinityScrollProps = Props
 
 export type YcInfinityScrollIns = {
   scrollToBottom: () => void
