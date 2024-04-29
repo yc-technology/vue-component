@@ -3,6 +3,7 @@ import { ExtractPublicPropTypes, PropType, defineComponent, provide, ref, watch 
 import { FetchItemsFn } from '~/lib/hooks'
 import { usePagingScroll } from '~/lib/hooks/usePagingScroll'
 import { YcButton } from '../yc-button'
+import { YcIcon } from '../yc-icon'
 
 const InfiniteScrollProviderKey = 'InfiniteScrollProvider'
 
@@ -32,6 +33,22 @@ export const ycInfinityScrollProps = {
     type: Number,
     default: 10
   },
+  showEmpty: {
+    type: Boolean,
+    default: true
+  },
+  emptyText: {
+    type: String,
+    default: 'no data.'
+  },
+  showFinished: {
+    type: Boolean,
+    default: true
+  },
+  finishedText: {
+    type: String,
+    default: 'no more data.'
+  },
   pageToken: {
     type: String || Number
   },
@@ -56,7 +73,7 @@ export type YcInfinityScrollProps = ExtractPublicPropTypes<typeof ycInfinityScro
 export default defineComponent({
   name: 'YcInfinityScroll',
   props: ycInfinityScrollProps,
-  emits: ['update:dataSource'],
+  emits: ['update:dataSource', 'firstFetched'],
   setup(props: YcInfinityScrollProps, ctx) {
     const scrollRef = ref<HTMLElement | Document | null>(null)
     const {
@@ -67,6 +84,7 @@ export default defineComponent({
       loading,
       empty,
       finished,
+      firstFetched,
       scrollToBottom,
       reload,
       check
@@ -79,6 +97,10 @@ export default defineComponent({
 
     watch(dataSource, (v) => {
       ctx.emit('update:dataSource', v)
+    })
+
+    watch(firstFetched, (v) => {
+      ctx.emit('firstFetched', v, dataSource.value)
     })
 
     watch(
@@ -100,19 +122,20 @@ export default defineComponent({
     function Empty() {
       if (ctx.slots.empty) return ctx.slots.empty()
       return (
-        <div class={'flex justify-center gap-1 py-2 text-5'}>
-          <div class="mingcute:box-2-line w-5 h-6" />
-          <div class="text-md"> empty </div>
+        <div class={'flex justify-center items-center gap-1 py-2 text-5'}>
+          <YcIcon icon="mingcute:box-2-line" class="w-5 h-6" />
+          <div class="text-md">{props.emptyText}</div>
         </div>
       )
     }
 
     function Finish() {
+      if (!props.showFinished) return null
       if (ctx.slots.finish) return ctx.slots.finish()
       return (
         <div class={'flex justify-center gap-1 py-2 text-5 text-neutral-300 items-center gap-2'}>
-          <div class="mingcute:check-line"></div>
-          <div class="text-md"> no more</div>
+          <YcIcon icon="mingcute:check-line" />
+          <div class="text-md">{props.finishedText}</div>
         </div>
       )
     }
@@ -123,7 +146,7 @@ export default defineComponent({
         <div class="flex flex-col items-center gap-2  p-1 rounded-2">
           <YcButton type="error" onClick={retry}>
             <div class="flex items-center gap-1">
-              <div class="i-mingcute:close-circle-line" />
+              <YcIcon icon="i-mingcute:close-circle-line" />
               <div>retry</div>
             </div>
           </YcButton>
@@ -133,8 +156,8 @@ export default defineComponent({
 
     function State() {
       if (loading.value) return Loading()
-      else if (empty.value) return Empty()
-      else if (finished.value) return Finish()
+      else if (empty.value && props.showEmpty) return Empty()
+      else if (finished.value && props.showFinished) return Finish()
       else if (errored.value) return Error()
     }
 
@@ -147,7 +170,8 @@ export default defineComponent({
     ctx.expose({
       scrollToBottom,
       reload,
-      check
+      check,
+      dataSource
     })
 
     return () => (

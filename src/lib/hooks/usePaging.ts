@@ -87,10 +87,7 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
       const remoteItems = res[options.itemsKey!] as T[]
       const remoteTotal = res[options.totalKey!] as number
       // 设置 empty
-      if (!firstFetched.value) {
-        empty.value = !remoteItems.length
-        firstFetched.value = true
-      }
+
       let isFinished = false
       if (options.reverse) remoteItems.reverse()
       if (typeof page.value === 'number') {
@@ -107,6 +104,11 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
       pageToken.value = res.pageToken || undefined
       finished.value = isFinished
       total.value = remoteTotal
+
+      if (!firstFetched.value) {
+        empty.value = !remoteItems.length && !dataSource.value.length
+        firstFetched.value = true
+      }
     } catch (e: any) {
       // 取消请求不算错误
       if (e?.name !== 'CanceledError') errored.value = true
