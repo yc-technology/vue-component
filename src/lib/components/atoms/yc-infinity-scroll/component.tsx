@@ -58,6 +58,9 @@ export const ycInfinityScrollProps = {
   dataSource: {
     type: Object as PropType<any[]>,
     default: () => []
+  },
+  setDataSource: {
+    type: Function as PropType<(data: any[]) => void>
   }
 } as const
 
@@ -90,6 +93,7 @@ export default defineComponent({
       check
     } = usePagingScroll(scrollRef, props.fetchItemsFn || defaultFetchItemsFn, {
       dataSource: props.dataSource,
+      setDataSource: props.setDataSource,
       pageSize: 5,
       pageToken: props.pageToken,
       ...props
