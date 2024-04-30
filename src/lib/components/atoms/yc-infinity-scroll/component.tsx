@@ -4,6 +4,7 @@ import { FetchItemsFn } from '~/lib/hooks'
 import { usePagingScroll } from '~/lib/hooks/usePagingScroll'
 import { YcButton } from '../yc-button'
 import { YcIcon } from '../yc-icon'
+import { nextTick } from '@yc-tech/shared'
 
 const InfiniteScrollProviderKey = 'InfiniteScrollProvider'
 
@@ -104,7 +105,9 @@ export default defineComponent({
     })
 
     watch(firstFetched, (v) => {
-      ctx.emit('firstFetched', v, dataSource.value)
+      nextTick(() => {
+        ctx.emit('firstFetched', v, dataSource.value)
+      })
     })
 
     watch(

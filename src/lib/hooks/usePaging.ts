@@ -1,5 +1,5 @@
 import { isUndefined } from 'lodash-es'
-import { Ref, onMounted, ref, watch } from 'vue'
+import { Ref, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Fn } from '~/types'
 
 export interface FetchPageResult<T> {
@@ -148,6 +148,10 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
     })
   }
 
+  onUnmounted(() => {
+    abort.value?.abort?.()
+    setDataSource([])
+  })
   return {
     page,
     pageSize,
