@@ -1,21 +1,36 @@
+import { isFunction, omit } from 'lodash-es'
 import { NDataTable, dataTableProps } from 'naive-ui'
-import { ExtractPublicPropTypes, computed, defineComponent } from 'vue'
+import { TableColumn } from 'naive-ui/es/data-table/src/interface'
+import { ExtractPublicPropTypes, PropType, computed, defineComponent } from 'vue'
+import { Fn } from '~/types'
 
 /**
  * 属性声明
  */
 const xProps = {
-  ...dataTableProps,
+  ...omit(dataTableProps, ['columns']),
   rowClickable: {
     type: Boolean,
     default: false
+  },
+  columns: {
+    type: Object as PropType<YcTableColumns<any>>,
+    default: () => []
   }
 } as const
 
 /**
  * 属性类型
  */
-type XProps = ExtractPublicPropTypes<typeof xProps>
+export type YcTableProps = ExtractPublicPropTypes<typeof xProps>
+
+interface TableColumnExt {
+  // 如果值是动态的请使用方法赋值形式 () => boolean
+  show?: boolean | Fn<any, boolean>
+  [key: string]: any
+}
+
+export type YcTableColumns<T> = Array<TableColumn<T> & TableColumnExt>
 
 export default defineComponent({
   name: 'YcTable',
@@ -24,7 +39,7 @@ export default defineComponent({
     rowClick: (row: any) => true
   },
 
-  setup(props: XProps, ctx) {
+  setup(props: YcTableProps, ctx) {
     function innerRowProps(row: any) {
       return {
         style: 'cursor: pointer;',
@@ -42,6 +57,12 @@ export default defineComponent({
       return props.rowClickable ? innerRowProps : undefined
     })
 
-    return () => <NDataTable {...props} rowProps={rowProps.value}></NDataTable>
+    const columns = computed(() => {
+      return props.columns?.filter((e) => (isFunction(e.show) ? e.show() : e.show) !== false)
+    })
+
+    return () => (
+      <NDataTable {...props} columns={columns.value} rowProps={rowProps.value}></NDataTable>
+    )
   }
 })
