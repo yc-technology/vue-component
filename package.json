@@ -1,7 +1,7 @@
 {
   "name": "@yc-tech/vue-component",
   "private": false,
-  "version": "0.1.12",
+  "version": "0.1.13",
   "packageManager": "pnpm@9.0.6",
   "author": "django",
   "repository": {
