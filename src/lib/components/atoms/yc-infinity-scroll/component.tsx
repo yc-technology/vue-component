@@ -153,7 +153,7 @@ export default defineComponent({
         <div class="flex flex-col items-center gap-2  p-1 rounded-2">
           <YcButton type="error" onClick={retry}>
             <div class="flex items-center gap-1">
-              <YcIcon icon="i-mingcute:close-circle-line" />
+              <YcIcon icon="mingcute:close-circle-line" />
               <div>retry</div>
             </div>
           </YcButton>

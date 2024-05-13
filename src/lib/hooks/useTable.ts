@@ -19,6 +19,8 @@ type UseTableOptions<T extends Record<string, any>> = {
   rowKeyField?: string
   showSizePicker?: boolean
   remote?: boolean
+  // 是否保留选择内容
+  sequenceChecked?: boolean
   pageSizes?: (number | PaginationSizeOption)[]
 } & UsePagingOptions<T>
 
@@ -38,6 +40,7 @@ export function useTable<T extends Record<string, any>>({
   remote = true,
   immediate = true,
   page: optionPage = 0,
+  sequenceChecked,
   ...optionRest
 }: UseTableOptions<T> = {}) {
   const { page, pageSize, total, ...rest } = usePaging<T>({
@@ -68,6 +71,11 @@ export function useTable<T extends Record<string, any>>({
       return obj as string | number
     }
   })
+
+  const resetChecked = () => {
+    checkedRowKeys.value = []
+    checkedRows.value = []
+  }
 
   // 点击页数时触发 loading
   const onPageChange = (v: number) => {
