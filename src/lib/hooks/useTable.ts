@@ -46,6 +46,7 @@ export function useTable<T extends Record<string, any>>({
   const { page, pageSize, total, ...rest } = usePaging<T>({
     ...optionRest,
     page: optionPage,
+    remote,
     immediate
   })
   const checkedRowKeys = ref<RowKey[]>([])

@@ -22,6 +22,7 @@ type SetDataSource<T> = (data: T[], increment?: T[]) => void
 export interface UsePagingOptions<T extends Record<string, any>> {
   page?: number
   pageSize?: number
+  remote?: boolean
   pageToken?: string | number
   itemsKey?: string
   totalKey?: string
@@ -41,7 +42,8 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
     pageSize: 20,
     pageToken: `${Number.MAX_SAFE_INTEGER}`,
     itemsKey: 'items',
-    totalKey: 'total'
+    totalKey: 'total',
+    remote: true
   } as Required<NonNullable<UsePagingOptions<T>>>
   initialOptions = Object.keys(initialOptions).reduce((acc, key) => {
     if (!isUndefined(initialOptions[key])) acc[key] = initialOptions[key]
@@ -137,6 +139,8 @@ export function usePaging<T extends Record<string, any>>(initialOptions: UsePagi
   }
 
   watch([page, pageSize, counter], () => {
+    // 如果不是远程获取数据，直接返回
+    if (!options.remote) return
     retry()
     load()
   })
