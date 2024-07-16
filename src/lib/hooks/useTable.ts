@@ -102,7 +102,7 @@ export function useTable<T extends Record<string, any>>({
 
   const tableOptions = computed(() => {
     return {
-      rowKey: rowKey.value,
+      rowKey: rowKey?.value,
       pagination: pagination.value,
       checkedRowKeys: checkedRowKeys.value,
       onUpdateCheckedRowKeys: onCheckedRowKeysChange,
